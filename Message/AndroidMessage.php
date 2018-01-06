@@ -16,6 +16,13 @@ class AndroidMessage implements MessageInterface
     protected $message = "";
 
     /**
+     * String title
+     *
+     * @var string
+     */
+    protected $title = "";
+
+    /**
      * The data to send in the message
      *
      * @var array
@@ -72,7 +79,11 @@ class AndroidMessage implements MessageInterface
      */
     public function setMessage($message)
     {
-        $this->message = $message;
+        if ($this->isFCM()) {
+            $this->data["body"] = $message;
+        } else {
+            $this->message = $message;
+        }
     }
 
     /**
@@ -83,6 +94,28 @@ class AndroidMessage implements MessageInterface
     public function getMessage()
     {
         return $this->message;
+    }
+
+    /**
+     * Sets the string title
+     *
+     * @param $title
+     */
+    public function setTitle($title)
+    {
+        if ($this->isFCM()) {
+            $this->data["title"] = $title;
+        }
+    }
+
+    /**
+     * Returns the string title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
     }
 
     /**
@@ -115,8 +148,8 @@ class AndroidMessage implements MessageInterface
     {
         $data = array(
             "registration_id" => $this->identifier,
-            "collapse_key"    => $this->collapseKey,
-            "data.message"    => $this->message,
+            "collapse_key" => $this->collapseKey,
+            "data.message" => $this->message,
         );
         if (!empty($this->data)) {
             $data = array_merge($data, $this->data);

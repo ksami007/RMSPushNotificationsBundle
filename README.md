@@ -100,6 +100,7 @@ Since both C2DM and GCM are still available, the `AndroidMessage` class has a sm
 
     $message = new AndroidMessage();
     $message->setGCM(true);
+    $message->setMessage('Oh my! A push notification!');
 
 to send as a GCM message rather than C2DM.
 
@@ -109,6 +110,8 @@ Since the deprecation of GCM for FCM, the follow is now recommended:
 
     $message = new AndroidMessage();
     $message->setFCM(true);
+    $message->setMessage('Oh my! A push notification!');
+    $message->setTitle('Oh my! A title !');
 
 
 ## iOS Feedback service
